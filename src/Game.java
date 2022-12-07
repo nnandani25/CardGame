@@ -18,8 +18,7 @@ public class Game {
 
 
     // constructor for the game class, takes in nothing
-    public Game()
-    {
+    public Game() {
         // asks the user to enter their name and sets the player1 name to their input
         Scanner input = new Scanner(System.in);
         System.out.println("Player 1 Name: ");
@@ -34,47 +33,37 @@ public class Game {
         // initializes the deck
         deck = new Deck(rank, suit, value);
 
-//        // clears the players hand to ensure that nothing is already there
-//        player1.clearHand();
-//        player2.clearHand();
-
         // shuffles the deck
         deck.Shuffle();
 
         // creates a hand for player1
-        for(int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             player1.addCard(deck.deal());
         }
 
         // creates a hand for player2
-        for(int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             player2.addCard(deck.deal());
         }
 
         // if the players deck has a pair, it gives redeals them cards until there are no pairs
-        while(player1.hasPair() || player2.hasPair())
-        {
+        while (player1.hasPair() || player2.hasPair()) {
             // clears the players hand and repeats the process of dealing cards to the player
             player1.clearHand();
             player2.clearHand();
             deck.Shuffle();
-            for(int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 player1.addCard(deck.deal());
             }
 
-            for(int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 player2.addCard(deck.deal());
             }
         }
     }
 
     // prints the instructions
-    public void printInstructions()
-    {
+    public void printInstructions() {
         System.out.println("\nINSTRUCTIONS: \n");
         System.out.println("1. Each player gets 5 cards, when it is a players turn, they ask their opponent for a " +
                 "card that the current player has in their deck, in order to make a pair.\n2. If the other player has" +
@@ -84,13 +73,32 @@ public class Game {
                 " of pairs until you have no cards left.\n");
     }
 
-    public void checkWin()
-    {
-        
+    // if either player has an empty hand, checks who won
+    // returns nothing
+    public void checkWin() {
+        // if both players have empty hands, then prints that its a tie
+        if (player1.handEmpty() && player2.handEmpty()) {
+            System.out.println("--------------------");
+            System.out.println("TIE!");
+        }
 
-    }    // plays the game
-    public void play()
-    {
+        // if only player 1 has an empty hand, prints that player 1 won
+        else if (player1.handEmpty()) {
+            System.out.println("--------------------");
+            System.out.println(player1.getName().toUpperCase() + " WINS!");
+
+        }
+
+        // if only player 1 has an empty hand, prints that player 1 won
+        else if (player2.handEmpty()) {
+            System.out.println("--------------------");
+            System.out.println(player2.getName().toUpperCase() + " WINS!");
+        }
+
+    }
+
+    // plays the game
+    public void play() {
         // prints the instructions
         printInstructions();
         // sets a current player
@@ -103,8 +111,7 @@ public class Game {
         String rankDesired;
 
         // if either hand is empty, it means that one of the players won, so they do not need to go through another round
-        while(!(player1.handEmpty() || player2.handEmpty()))
-        {
+        while (!(player1.handEmpty() || player2.handEmpty())) {
             // prints out whos turn it is
             System.out.println(currentPlayer.getName().toUpperCase() + "'s TURN:");
             // prints out the current players points and amount of cards
@@ -120,8 +127,7 @@ public class Game {
 
             // if the opponent has the desired card, then it removes the card from both the current player and the
             // opponent and increases the current players point
-            if(opponent.hasCard(rankDesired))
-            {
+            if (opponent.hasCard(rankDesired)) {
                 // removes the card from the opponent
                 opponent.removeCard(rankDesired);
                 // removes the card from the current player
@@ -130,8 +136,7 @@ public class Game {
                 currentPlayer.addPoints(1);
 
                 // checks if either player's hand is empty, becuase that means that someone won.
-                if(player1.handEmpty() || player2.handEmpty())
-                {
+                if (player1.handEmpty() || player2.handEmpty()) {
                     break;
                 }
                 // if their hand is not empty it prints out their new hand
@@ -141,26 +146,22 @@ public class Game {
             }
 
             // if the opponent doesn't have a card, makes the player 'go fish' and draw a new card
-            else
-            {
+            else {
                 // if there are no more cards in the deck to draw from the deck, prints error and then will exit loop
                 // and end turn
-                if(deck.isEmpty())
-                {
+                if (deck.isEmpty()) {
                     System.out.println("Go fish!");
                     System.out.println("Oh no! The deck is empty, keep playing without drawing from deck.\n\nNew Deck:");
                     currentPlayer.printHand();
                 }
 
                 // if the deck isn't empty, lets the player pick a card
-                else
-                {
+                else {
                     // creates the card the player drew
                     Card c = deck.deal();
 
                     // checks if the player has that card already in their deck
-                    if(currentPlayer.hasCard(c.getRank()))
-                    {
+                    if (currentPlayer.hasCard(c.getRank())) {
                         // if they have the card, removes it
                         currentPlayer.removeCard(c.getRank());
                         // increases the players pints
@@ -170,19 +171,17 @@ public class Game {
                         System.out.println("Looks like you drew a card and got a pair!");
 
                         // checks if either hand is empty, meaning that they won
-                        if(player1.handEmpty() || player2.handEmpty())
-                        {
+                        if (player1.handEmpty() || player2.handEmpty()) {
                             // exits loop if they won
                             break;
                         }
                         // if they didn't win, prints the current players new hand
-                        System.out.println("New Deck:");
+                        System.out.println("\n\nNew Deck:");
                         currentPlayer.printHand();
                     }
 
                     // if the player doesn't have the card that they drew in their hand, adds card and prints the new deck
-                    else
-                    {
+                    else {
                         System.out.println("Go fish!\n\nNew Deck:");
                         currentPlayer.addCard(c);
                         currentPlayer.printHand();
@@ -200,25 +199,8 @@ public class Game {
             temp.endTurn(currentPlayer, opponent);
 
         }
-
-        // if either player has an empty hand,
-        if(player1.handEmpty() && player2.handEmpty())
-        {
-            System.out.println("TIE!");
-        }
-
-        else if(player1.handEmpty())
-        {
-            System.out.println("--------------------");
-            System.out.println(player1.getName().toUpperCase() + " WINS!");
-
-        }
-
-        else if(player2.handEmpty())
-        {
-            System.out.println("--------------------");
-            System.out.println(player2.getName().toUpperCase() + " WINS!");
-        }
+        // if a player has an empty hand, it checks to see who won
+        checkWin();
     }
 }
 
