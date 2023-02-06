@@ -4,6 +4,7 @@ public class Game {
     private Player player1;
     private Player player2;
     private Deck deck;
+    private GameViewer window;
 
     private static String[] rank = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     private static String[] suit = {"♣", "♠", "♦", "♥"};
@@ -60,6 +61,8 @@ public class Game {
                 player2.addCard(deck.deal());
             }
         }
+
+        window = new GameViewer(this);
     }
 
     // prints the instructions

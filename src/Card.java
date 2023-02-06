@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-
+import javax.swing.*;
+import java.awt.*;
 public class Card {
     private int point;
     private String rank;
@@ -47,5 +48,33 @@ public class Card {
     public String toString()
     {
         return rank + " " +  suit;
+    }
+
+    public void draw(Graphics g, GameViewer b)
+    {
+        //b.getImages();
+        //"♣", "♠", "♦", "♥"
+        if(suit.equals("♠"))
+        {
+            g.drawImage(b.getSpades()[point], 50, 50, 100, 100, b);
+        }
+
+        if(suit.equals("♦"))
+        {
+            g.drawImage(b.getDiamonds()[point], 50, 50, 100, 100, b);
+        }
+
+        if(suit.equals("♥"))
+        {
+            g.drawImage(b.getHearts()[point], 50, 50, 100, 100, b);
+        }
+
+        if(suit.equals("♥"))
+        {
+            g.drawImage(b.getHearts()[point], 50, 50, 100, 100, b);
+        }
+
+
+
     }
 }
