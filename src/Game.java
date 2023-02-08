@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.awt.*;
 public class Game {
 
     private Player player1;
@@ -16,6 +17,16 @@ public class Game {
         Game g = new Game();
         g.play();
     }
+
+    public Player getPlayer1()
+    {
+        return player1;
+    }
+    public Player getPlayer2()
+    {
+        return player2;
+    }
+
 
 
     // constructor for the game class, takes in nothing
@@ -47,6 +58,11 @@ public class Game {
             player2.addCard(deck.deal());
         }
 
+//        while(player1.getNumCards() < 5)
+//        {
+//
+//        }
+
         // if the players deck has a pair, it gives redeals them cards until there are no pairs
         while (player1.hasPair() || player2.hasPair()) {
             // clears the players hand and repeats the process of dealing cards to the player
@@ -63,6 +79,7 @@ public class Game {
         }
 
         window = new GameViewer(this);
+
     }
 
     // prints the instructions
@@ -83,12 +100,15 @@ public class Game {
         if (player1.handEmpty() && player2.handEmpty()) {
             System.out.println("--------------------");
             System.out.println("TIE!");
+            window.repaint();
         }
 
         // if only player 1 has an empty hand, prints that player 1 won
         else if (player1.handEmpty()) {
             System.out.println("--------------------");
             System.out.println(player1.getName().toUpperCase() + " WINS!");
+            window.setStatus(6);
+            window.repaint();
 
         }
 
@@ -96,6 +116,8 @@ public class Game {
         else if (player2.handEmpty()) {
             System.out.println("--------------------");
             System.out.println(player2.getName().toUpperCase() + " WINS!");
+            window.setStatus(7);
+            window.repaint();
         }
 
     }
@@ -115,6 +137,16 @@ public class Game {
 
         // if either hand is empty, it means that one of the players won, so they do not need to go through another round
         while (!(player1.handEmpty() || player2.handEmpty())) {
+            if(currentPlayer == player1)
+            {
+                window.setStatus(1);
+            }
+
+            else
+            {
+                window.setStatus(2);
+            }
+            window.repaint();
             // prints out whos turn it is
             System.out.println(currentPlayer.getName().toUpperCase() + "'s TURN:");
             // prints out the current players points and amount of cards
@@ -146,6 +178,8 @@ public class Game {
                 System.out.println("You asked and you got it!\n\nNew Deck:");
                 // prints out the current players new hand
                 currentPlayer.printHand();
+                window.setStatus(5);
+                window.repaint();
             }
 
             // if the opponent doesn't have a card, makes the player 'go fish' and draw a new card
@@ -156,6 +190,8 @@ public class Game {
                     System.out.println("Go fish!");
                     System.out.println("Oh no! The deck is empty, keep playing without drawing from deck.\n\nNew Deck:");
                     currentPlayer.printHand();
+                    window.setStatus(4);
+                    window.repaint();
                 }
 
                 // if the deck isn't empty, lets the player pick a card
@@ -171,7 +207,11 @@ public class Game {
                         currentPlayer.addPoints(1);
                         // tells them they received a pair
                         System.out.println("Go fish!");
+                        window.setStatus(4);
+                        window.repaint();
                         System.out.println("Looks like you drew a card and got a pair!");
+                        window.setStatus(5);
+                        window.repaint();
 
                         // checks if either hand is empty, meaning that they won
                         if (player1.handEmpty() || player2.handEmpty()) {
@@ -181,6 +221,7 @@ public class Game {
                         // if they didn't win, prints the current players new hand
                         System.out.println("\n\nNew Deck:");
                         currentPlayer.printHand();
+                        window.repaint();
                     }
 
                     // if the player doesn't have the card that they drew in their hand, adds card and prints the new deck
@@ -188,6 +229,8 @@ public class Game {
                         System.out.println("Go fish!\n\nNew Deck:");
                         currentPlayer.addCard(c);
                         currentPlayer.printHand();
+                        window.setStatus(4);
+                        window.repaint();
                     }
                 }
             }
@@ -198,6 +241,10 @@ public class Game {
             currentPlayer = opponent;
             // opponent becomes the old current player, which is the temp
             opponent = temp;
+
+
+
+
             // ends turn, which tells the user to press enter and look away, so they can't see the other persons hand
             temp.endTurn(currentPlayer, opponent);
 

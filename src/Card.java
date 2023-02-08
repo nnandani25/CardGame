@@ -5,6 +5,8 @@ public class Card {
     private int point;
     private String rank;
     private String suit;
+    private Image image;
+
 
     // constructor which sets the point, suit, and rank
     public Card(int point, String suit, String rank)
@@ -12,6 +14,30 @@ public class Card {
         this.point = point;
         this.suit = suit;
         this.rank = rank;
+
+        int suitPoint;
+        if(suit.equals("♠"))
+        {
+            suitPoint = 1;
+        }
+
+        else if(suit.equals("♥"))
+        {
+            suitPoint = 2;
+        }
+
+        else if(suit.equals("♦"))
+        {
+            suitPoint = 3;
+        }
+
+        else
+        {
+            suitPoint = 4;
+        }
+
+        int imageNum = (point - 1) * 4 + suitPoint;
+        image = new ImageIcon("Resources/Cards/" + imageNum + ".png").getImage();
     }
 
     // returns the point
@@ -50,31 +76,8 @@ public class Card {
         return rank + " " +  suit;
     }
 
-    public void draw(Graphics g, GameViewer b)
+    public void draw(Graphics g,  GameViewer b, int x, int y)
     {
-        //b.getImages();
-        //"♣", "♠", "♦", "♥"
-        if(suit.equals("♠"))
-        {
-            g.drawImage(b.getSpades()[point], 50, 50, 100, 100, b);
-        }
-
-        if(suit.equals("♦"))
-        {
-            g.drawImage(b.getDiamonds()[point], 50, 50, 100, 100, b);
-        }
-
-        if(suit.equals("♥"))
-        {
-            g.drawImage(b.getHearts()[point], 50, 50, 100, 100, b);
-        }
-
-        if(suit.equals("♥"))
-        {
-            g.drawImage(b.getHearts()[point], 50, 50, 100, 100, b);
-        }
-
-
-
+        g.drawImage(image, x, y, 75,115 , b);
     }
 }

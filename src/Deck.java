@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-
+import javax.swing.*;
+import java.awt.*;
 public class Deck {
 
     private ArrayList<Card> cards;
@@ -92,4 +93,5 @@ public class Deck {
             cards.set(r, cardI);
         }
     }
+
 }

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.*;
 public class Player {
 
     private ArrayList<Card> hand = new ArrayList<Card>();
@@ -172,6 +173,24 @@ public class Player {
             }
         }
 
+    }
+
+    public void drawHand(Graphics g, GameViewer b)
+    {
+        int counter = 0;
+        for(int i = 0; i < hand.size(); i++)
+        {
+            if(counter > 5)
+            {
+                hand.get(i).draw(g,b, 200 + (i-counter)*100, 400);
+            }
+
+            else
+            {
+                hand.get(i).draw(g,b, 200 + i*100, 280);
+            }
+            counter++;
+        }
     }
 
     public String toString()
