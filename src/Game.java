@@ -133,6 +133,7 @@ public class Game {
 
         // calls end turn because it asks the user to press enter, so they cannot see each others hand
         opponent.endTurn(currentPlayer, opponent);
+        window.setStatus(3);
         String rankDesired;
 
         // if either hand is empty, it means that one of the players won, so they do not need to go through another round

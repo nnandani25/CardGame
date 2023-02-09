@@ -58,24 +58,30 @@ public class GameViewer extends JFrame {
         //Display player 1 hand
         else if(status == 1)
         {
+            g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
+            g.drawString("Player 1", 350, 220);
             game.getPlayer1().drawHand(g, this);
         }
 
         //Display player 2 hand
         else if(status == 2)
         {
+            g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
+            g.drawString("Player 2", 350, 220);
             game.getPlayer2().drawHand(g, this);
 
         }
 
-        //Display switch player
-//        else if(status == 3)
-//        {
-//            g.setFont(new Font("AppleStorm", Font.PLAIN, 100));
-//            Image starter = new ImageIcon("Resources/Sea/realisticSea.jpg").getImage();
-//            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-//            g.drawString("Switch Players!", 260, 350);
-//        }
+        //Display starter
+        else if(status == 3)
+        {
+            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
+            Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
+            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            g.drawString("Game is starting...", 200, 350);
+            g.setFont(new Font("Blobtastics", Font.PLAIN, 50));
+            g.drawString("Player 1 will begin, Player 2 look away!", 90, 500);
+        }
 
         //Display go fish
         else if(status == 4)
