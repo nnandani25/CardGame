@@ -5,12 +5,10 @@ public class Game {
     private Player player1;
     private Player player2;
     private Deck deck;
-    private GameViewer window;
-
     private static String[] rank = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     private static String[] suit = {"♣", "♠", "♦", "♥"};
     private static int[] value = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-
+    private GameViewer window;
 
     // plays the overall game
     public static void main(String[] args) {
@@ -58,10 +56,6 @@ public class Game {
             player2.addCard(deck.deal());
         }
 
-//        while(player1.getNumCards() < 5)
-//        {
-//
-//        }
 
         // if the players deck has a pair, it gives redeals them cards until there are no pairs
         while (player1.hasPair() || player2.hasPair()) {

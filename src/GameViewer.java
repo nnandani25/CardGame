@@ -23,16 +23,17 @@ public class GameViewer extends JFrame {
    // private final int DECK_LENGTH = 52;
     private int status;
     private Image background;
+    private static int counter = 0;
 
     public GameViewer(Game game)
     {
+        status = 0;
+        background = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
         this.game = game;
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Go Fish");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
-        status = 0;
-        background = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
 
     }
 
@@ -58,16 +59,26 @@ public class GameViewer extends JFrame {
         //Display player 1 hand
         else if(status == 1)
         {
+            if(counter < 1)
+            {
+                printBeginning(g);
+                counter++;
+            }
+
             g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
-            g.drawString("Player 1", 350, 220);
+            Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
+            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            g.drawString(game.getPlayer1().getName(), 450, 220);
             game.getPlayer1().drawHand(g, this);
         }
 
         //Display player 2 hand
         else if(status == 2)
         {
+            Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
+            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
             g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
-            g.drawString("Player 2", 350, 220);
+            g.drawString(game.getPlayer2().getName(), 450, 220);
             game.getPlayer2().drawHand(g, this);
 
         }
@@ -75,12 +86,7 @@ public class GameViewer extends JFrame {
         //Display starter
         else if(status == 3)
         {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-            g.drawString("Game is starting...", 200, 350);
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 50));
-            g.drawString("Player 1 will begin, Player 2 look away!", 90, 500);
+
         }
 
         //Display go fish
@@ -110,8 +116,8 @@ public class GameViewer extends JFrame {
             g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
             Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
             g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-            g.drawString("PLAYER 1", 250, 350);
-            g.drawString("WINS!", 320, 500);
+            g.drawString(game.getPlayer1().getName(), 250, 350);
+            g.drawString("WINS!", 300, 500);
         }
 
         //Display player 2 wins
@@ -120,8 +126,8 @@ public class GameViewer extends JFrame {
             g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
             Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
             g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-            g.drawString("PLAYER 2", 250, 350);
-            g.drawString("WINS!", 320, 500);
+            g.drawString(game.getPlayer2().getName(), 250, 350);
+            g.drawString("WINS!", 300, 500);
         }
 
         //Display a tie
@@ -137,6 +143,41 @@ public class GameViewer extends JFrame {
     public void setStatus(int s)
     {
         status = s;
+    }
+
+    public void printBeginning(Graphics g)
+    {
+        Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
+        g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+        g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
+        g.drawString(game.getPlayer1().getName() + "'s turn will", 40, 350);
+        g.drawString("start in ", 250, 450);
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+        g.drawString("3", 500, 400);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+        g.drawString("2", 500, 400);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+        g.drawString("1", 500, 400);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
