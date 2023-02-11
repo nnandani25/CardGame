@@ -174,21 +174,25 @@ public class Player {
 
     }
 
+    // Draws the players hand
     public void drawHand(Graphics g, GameViewer b)
     {
-        int counter = 0;
+        // Loops through the hand
         for(int i = 0; i < hand.size(); i++)
         {
-            if(counter >= 5)
+            // Once the player has more than 5 cards, it wraps the cards around to the bottom
+            if(i >= 5)
             {
-                hand.get(i).draw(g,b, 250 + (i-counter)*100, 400);
+                // Moves the cards to the bottom and under the old cards
+                // Multiplies by 100 to make the space between the cards
+                hand.get(i).draw(g,b, ((i)*100) - 250, 400);
             }
 
+            // If there are less than 5 cards, it prints them in one row in the center
             else
             {
                 hand.get(i).draw(g,b, 250 + i*100, 280);
             }
-            counter++;
         }
     }
 

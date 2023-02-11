@@ -1,30 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
 public class GameViewer extends JFrame {
-    /**
-     * Instance variables:
-        * Game object
-        * Image array
-        * Magic numbers
-     *
-     * Constructor:
-        * take in a Game object
-        * instantiate images / put them in array
-        * this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        * this.setTitle("Go Fish");
-        * this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        * this.setVisible(true);
-     **/
     private Game game;
-    private Image[] cards;
-
     private final int WINDOW_WIDTH = 1000;
     private final int WINDOW_HEIGHT = 800;
-   // private final int DECK_LENGTH = 52;
     private int status;
     private Image background;
     private static int counter = 0;
 
+    // Initializes variables and sets up background.
     public GameViewer(Game game)
     {
         status = 0;
@@ -36,38 +20,36 @@ public class GameViewer extends JFrame {
         this.setVisible(true);
 
     }
-
-//    public Image[] getImages()
-//    {
-//        return cards;
-//    }
-
     @Override
+    // Paints the different screens depending on the status of the game
     public void paint(Graphics g)
     {
+        // Draws the background
         g.drawImage(background, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
 
-        //Display home screen
+        // Display home screen and prints "Go Fish!"
         if(status == 0)
         {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            drawStartScreen(g);
             g.drawString("GO FISH!", 220, 380);
         }
 
-        //Display player 1 hand
+        // Displays player 1's hand
         else if(status == 1)
         {
+            /**
+             * The counter variable helps keep track of how many times player 1's turn has happened
+             * If it is the players first turn, it prints that the first player will start along with a count down
+             * in order to show that the game is starting
+             **/
             if(counter < 1)
             {
                 printBeginning(g);
                 counter++;
             }
 
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
-            Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            // Draws the screen and prints the players hand
+            drawPlayScreen(g, 60);
             g.drawString(game.getPlayer1().getName(), 450, 220);
             game.getPlayer1().drawHand(g, this);
         }
@@ -75,88 +57,83 @@ public class GameViewer extends JFrame {
         //Display player 2 hand
         else if(status == 2)
         {
-            Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
+            // Draws the screen that is used to play the game
+            drawPlayScreen(g, 60);
+            // Prints the players name and draws their hand
             g.drawString(game.getPlayer2().getName(), 450, 220);
             game.getPlayer2().drawHand(g, this);
 
         }
 
-        //Display starter
+        //Display go fish and tells the players to switch
         else if(status == 3)
         {
-
-        }
-
-        //Display go fish
-        else if(status == 4)
-        {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            drawPlayScreen(g, 100);
             g.drawString("GO FISH!", 250, 350);
             g.setFont(new Font("Blobtastics", Font.ITALIC, 60));
             g.drawString("Switch players...", 170, 450);
         }
 
-        // Display pair
-        else if(status == 5)
+        // Displays that there is a pair and tells the players to switch
+        else if(status == 4)
         {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            drawPlayScreen(g,100);
             g.drawString("PAIR!", 350, 350);
             g.setFont(new Font("Blobtastics", Font.ITALIC, 60));
             g.drawString("Switch players...", 170, 450);
         }
-        //Display player 1 wins
-        else if(status == 6)
+
+        //Displays that player 1 wins
+        else if(status == 5)
         {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            drawStartScreen(g);
             g.drawString(game.getPlayer1().getName(), 250, 350);
             g.drawString("WINS!", 300, 500);
         }
 
-        //Display player 2 wins
-        else if(status == 7)
+        //Displays that player 2 wins
+        else if(status == 6)
         {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            drawStartScreen(g);
             g.drawString(game.getPlayer2().getName(), 250, 350);
             g.drawString("WINS!", 300, 500);
         }
 
-        //Display a tie
+        //Displays that a tie has occured
         else
         {
-            g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
-            Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
-            g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            drawStartScreen(g);
             g.drawString("TIE!", 260, 350);
         }
     }
 
+    // Sets the status of the screen — which happens in the Game class
     public void setStatus(int s)
     {
         status = s;
     }
 
+    // Prints the beginning countdown which lets the user know that player 1 will begin and that the game is starting
     public void printBeginning(Graphics g)
     {
+        // Sets the background image
         Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
         g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+
+        // Sets the font and prints the players turn
         g.setFont(new Font("Blobtastics", Font.PLAIN, 60));
-        g.drawString(game.getPlayer1().getName() + "'s turn will", 40, 350);
+        g.drawString(game.getPlayer1().getName() + "'s turn will", 100, 350);
         g.drawString("start in ", 250, 450);
+
+        // Does the countdown by using the sleep method
+        // Uses a try catch method in order to throw an error if something goes wrong during the sleep time
         try {
-            Thread.sleep(1500);
+            Thread.sleep(1200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        // Prints the three and sleeps for 1  second
         g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         g.drawString("3", 500, 400);
         try {
@@ -164,6 +141,8 @@ public class GameViewer extends JFrame {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        // Prints the 2 and sleeps for 1 second
         g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         g.drawString("2", 500, 400);
         try {
@@ -171,6 +150,8 @@ public class GameViewer extends JFrame {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        // Prints the 1 and sleeps for 1 second
         g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         g.drawString("1", 500, 400);
         try {
@@ -180,16 +161,19 @@ public class GameViewer extends JFrame {
         }
     }
 
-    /**
-     *
-     * Paint:
-        * call draw method in card
-        * print any strings needed with draw string
-        * checks if there is a tie
-     *
-     * print hand
-     * get card
-     * Get Images:
-        * returns the array of images
-     **/
+    // Draws the starting screen which is used at the beginning and end of the program
+    public void drawStartScreen(Graphics g)
+    {
+        g.setFont(new Font("Blobtastics", Font.PLAIN, 100));
+        Image starter = new ImageIcon("Resources/Sea/bigOcean.jpg").getImage();
+        g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+    }
+
+    // Draws the screen which is used when the game is being played
+    public void drawPlayScreen(Graphics g, int fontSize)
+    {
+        g.setFont(new Font("Blobtastics", Font.PLAIN, fontSize));
+        Image starter = new ImageIcon("Resources/Sea/underwater.jpg").getImage();
+        g.drawImage(starter, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+    }
 }

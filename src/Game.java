@@ -101,7 +101,7 @@ public class Game {
         else if (player1.handEmpty()) {
             System.out.println("--------------------");
             System.out.println(player1.getName().toUpperCase() + " WINS!");
-            window.setStatus(6);
+            window.setStatus(5);
             window.repaint();
 
         }
@@ -110,7 +110,7 @@ public class Game {
         else if (player2.handEmpty()) {
             System.out.println("--------------------");
             System.out.println(player2.getName().toUpperCase() + " WINS!");
-            window.setStatus(7);
+            window.setStatus(6);
             window.repaint();
         }
 
@@ -127,18 +127,19 @@ public class Game {
 
         // calls end turn because it asks the user to press enter, so they cannot see each others hand
         opponent.endTurn(currentPlayer, opponent);
-        window.setStatus(3);
         String rankDesired;
 
         // if either hand is empty, it means that one of the players won, so they do not need to go through another round
         while (!(player1.handEmpty() || player2.handEmpty())) {
             if(currentPlayer == player1)
             {
+                // Sets the status to 1, letting the computer know to display player1's hand
                 window.setStatus(1);
             }
 
             else
             {
+                // Sets the status to 2, letting the computer know to display player2's hand
                 window.setStatus(2);
             }
             window.repaint();
@@ -173,7 +174,8 @@ public class Game {
                 System.out.println("You asked and you got it!\n\nNew Deck:");
                 // prints out the current players new hand
                 currentPlayer.printHand();
-                window.setStatus(5);
+                // Sets status to 4 which lets the computer know that there is a pair and to print it
+                window.setStatus(4);
                 window.repaint();
             }
 
@@ -185,7 +187,8 @@ public class Game {
                     System.out.println("Go fish!");
                     System.out.println("Oh no! The deck is empty, keep playing without drawing from deck.\n\nNew Deck:");
                     currentPlayer.printHand();
-                    window.setStatus(4);
+                    // Paints go fish
+                    window.setStatus(3);
                     window.repaint();
                 }
 
@@ -202,10 +205,12 @@ public class Game {
                         currentPlayer.addPoints(1);
                         // tells them they received a pair
                         System.out.println("Go fish!");
-                        window.setStatus(4);
+                        // Paints go fish
+                        window.setStatus(3);
                         window.repaint();
                         System.out.println("Looks like you drew a card and got a pair!");
-                        window.setStatus(5);
+                        // Paints that there is a pair
+                        window.setStatus(4);
                         window.repaint();
 
                         // checks if either hand is empty, meaning that they won
@@ -224,7 +229,8 @@ public class Game {
                         System.out.println("Go fish!\n\nNew Deck:");
                         currentPlayer.addCard(c);
                         currentPlayer.printHand();
-                        window.setStatus(4);
+                        // Prints go fish
+                        window.setStatus(3);
                         window.repaint();
                     }
                 }
